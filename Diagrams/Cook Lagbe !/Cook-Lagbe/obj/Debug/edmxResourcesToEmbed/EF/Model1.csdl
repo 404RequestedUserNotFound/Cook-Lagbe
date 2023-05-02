@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BUA_LAGBEDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Booking">
+    <Key>
+      <PropertyRef Name="booking_id" />
+    </Key>
+    <Property Name="booking_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="booking_date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="user_id" Type="Int32" Nullable="false" />
+    <Property Name="bua_id" Type="Int32" Nullable="false" />
+    <Property Name="is_accepted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Bua" Relationship="Self.FK_dbo_Bookings_dbo_Buas_bua_id" FromRole="Bookings" ToRole="Buas" />
+    <NavigationProperty Name="User" Relationship="Self.FK_dbo_Bookings_dbo_Users_user_id" FromRole="Bookings" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Bua">
+    <Key>
+      <PropertyRef Name="bua_id" />
+    </Key>
+    <Property Name="bua_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="bua_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="bua_address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="bua_phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="bua_image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="bua_NID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="bua_description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Bookings" Relationship="Self.FK_dbo_Bookings_dbo_Buas_bua_id" FromRole="Buas" ToRole="Bookings" />
+    <NavigationProperty Name="Payments" Relationship="Self.FK_dbo_Payments_dbo_Buas_bua_id" FromRole="Buas" ToRole="Payments" />
+    <NavigationProperty Name="Reviews" Relationship="Self.FK_dbo_Reviews_dbo_Buas_bua_id" FromRole="Buas" ToRole="Reviews" />
+  </EntityType>
+  <EntityType Name="Payment">
+    <Key>
+      <PropertyRef Name="payment_id" />
+    </Key>
+    <Property Name="payment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="payment_date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="payment_amount" Type="Int32" Nullable="false" />
+    <Property Name="user_id" Type="Int32" Nullable="false" />
+    <Property Name="bua_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Bua" Relationship="Self.FK_dbo_Payments_dbo_Buas_bua_id" FromRole="Payments" ToRole="Buas" />
+    <NavigationProperty Name="User" Relationship="Self.FK_dbo_Payments_dbo_Users_user_id" FromRole="Payments" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Review">
+    <Key>
+      <PropertyRef Name="review_id" />
+    </Key>
+    <Property Name="review_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="review_text" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="review_date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="user_id" Type="Int32" Nullable="false" />
+    <Property Name="bua_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Bua" Relationship="Self.FK_dbo_Reviews_dbo_Buas_bua_id" FromRole="Reviews" ToRole="Buas" />
+    <NavigationProperty Name="User" Relationship="Self.FK_dbo_Reviews_dbo_Users_user_id" FromRole="Reviews" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="user_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="user_NID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="user_image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="user_address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="user_phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="user_profession" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Bookings" Relationship="Self.FK_dbo_Bookings_dbo_Users_user_id" FromRole="Users" ToRole="Bookings" />
+    <NavigationProperty Name="Payments" Relationship="Self.FK_dbo_Payments_dbo_Users_user_id" FromRole="Users" ToRole="Payments" />
+    <NavigationProperty Name="Reviews" Relationship="Self.FK_dbo_Reviews_dbo_Users_user_id" FromRole="Users" ToRole="Reviews" />
+  </EntityType>
+  <Association Name="FK_dbo_Bookings_dbo_Buas_bua_id">
+    <End Role="Buas" Type="Self.Bua" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Bookings" Type="Self.Booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Buas">
+        <PropertyRef Name="bua_id" />
+      </Principal>
+      <Dependent Role="Bookings">
+        <PropertyRef Name="bua_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Bookings_dbo_Users_user_id">
+    <End Role="Users" Type="Self.User" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Bookings" Type="Self.Booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Bookings">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Payments_dbo_Buas_bua_id">
+    <End Role="Buas" Type="Self.Bua" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Payments" Type="Self.Payment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Buas">
+        <PropertyRef Name="bua_id" />
+      </Principal>
+      <Dependent Role="Payments">
+        <PropertyRef Name="bua_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Reviews_dbo_Buas_bua_id">
+    <End Role="Buas" Type="Self.Bua" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Reviews" Type="Self.Review" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Buas">
+        <PropertyRef Name="bua_id" />
+      </Principal>
+      <Dependent Role="Reviews">
+        <PropertyRef Name="bua_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Payments_dbo_Users_user_id">
+    <End Role="Users" Type="Self.User" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Payments" Type="Self.Payment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Payments">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Reviews_dbo_Users_user_id">
+    <End Role="Users" Type="Self.User" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Reviews" Type="Self.Review" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Reviews">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BUA_LAGBEDBEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+    <EntitySet Name="Bookings" EntityType="Self.Booking" />
+    <EntitySet Name="Buas" EntityType="Self.Bua" />
+    <EntitySet Name="Payments" EntityType="Self.Payment" />
+    <EntitySet Name="Reviews" EntityType="Self.Review" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_dbo_Bookings_dbo_Buas_bua_id" Association="Self.FK_dbo_Bookings_dbo_Buas_bua_id">
+      <End Role="Buas" EntitySet="Buas" />
+      <End Role="Bookings" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Bookings_dbo_Users_user_id" Association="Self.FK_dbo_Bookings_dbo_Users_user_id">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Bookings" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Payments_dbo_Buas_bua_id" Association="Self.FK_dbo_Payments_dbo_Buas_bua_id">
+      <End Role="Buas" EntitySet="Buas" />
+      <End Role="Payments" EntitySet="Payments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Reviews_dbo_Buas_bua_id" Association="Self.FK_dbo_Reviews_dbo_Buas_bua_id">
+      <End Role="Buas" EntitySet="Buas" />
+      <End Role="Reviews" EntitySet="Reviews" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Payments_dbo_Users_user_id" Association="Self.FK_dbo_Payments_dbo_Users_user_id">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Payments" EntitySet="Payments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Reviews_dbo_Users_user_id" Association="Self.FK_dbo_Reviews_dbo_Users_user_id">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Reviews" EntitySet="Reviews" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

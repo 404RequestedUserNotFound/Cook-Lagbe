@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BUA_LAGBEDBModelStoreContainer" CdmEntityContainer="BUA_LAGBEDBEntities1">
+    <EntitySetMapping Name="C__MigrationHistory">
+      <EntityTypeMapping TypeName="BUA_LAGBEDBModel.C__MigrationHistory">
+        <MappingFragment StoreEntitySet="__MigrationHistory">
+          <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+          <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Bookings">
+      <EntityTypeMapping TypeName="BUA_LAGBEDBModel.Booking">
+        <MappingFragment StoreEntitySet="Bookings">
+          <ScalarProperty Name="booking_id" ColumnName="booking_id" />
+          <ScalarProperty Name="booking_date" ColumnName="booking_date" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="bua_id" ColumnName="bua_id" />
+          <ScalarProperty Name="is_accepted" ColumnName="is_accepted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Buas">
+      <EntityTypeMapping TypeName="BUA_LAGBEDBModel.Bua">
+        <MappingFragment StoreEntitySet="Buas">
+          <ScalarProperty Name="bua_id" ColumnName="bua_id" />
+          <ScalarProperty Name="bua_name" ColumnName="bua_name" />
+          <ScalarProperty Name="bua_address" ColumnName="bua_address" />
+          <ScalarProperty Name="bua_phone" ColumnName="bua_phone" />
+          <ScalarProperty Name="bua_image" ColumnName="bua_image" />
+          <ScalarProperty Name="bua_NID" ColumnName="bua_NID" />
+          <ScalarProperty Name="bua_description" ColumnName="bua_Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Payments">
+      <EntityTypeMapping TypeName="BUA_LAGBEDBModel.Payment">
+        <MappingFragment StoreEntitySet="Payments">
+          <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+          <ScalarProperty Name="payment_date" ColumnName="payment_date" />
+          <ScalarProperty Name="payment_amount" ColumnName="payment_amount" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="bua_id" ColumnName="bua_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reviews">
+      <EntityTypeMapping TypeName="BUA_LAGBEDBModel.Review">
+        <MappingFragment StoreEntitySet="Reviews">
+          <ScalarProperty Name="review_id" ColumnName="review_id" />
+          <ScalarProperty Name="review_text" ColumnName="review_text" />
+          <ScalarProperty Name="review_date" ColumnName="review_date" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="bua_id" ColumnName="bua_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="BUA_LAGBEDBModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="user_name" ColumnName="user_name" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="user_NID" ColumnName="user_NID" />
+          <ScalarProperty Name="user_image" ColumnName="user_image" />
+          <ScalarProperty Name="user_address" ColumnName="user_address" />
+          <ScalarProperty Name="user_phone" ColumnName="user_phone" />
+          <ScalarProperty Name="user_profession" ColumnName="user_profession" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

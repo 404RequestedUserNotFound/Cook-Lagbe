@@ -1,0 +1,489 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Bookings">
+          <Key>
+            <PropertyRef Name="booking_id" />
+          </Key>
+          <Property Name="booking_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="booking_date" Type="datetime" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="cook_id" Type="int" Nullable="false" />
+          <Property Name="is_accepted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cooks">
+          <Key>
+            <PropertyRef Name="cook_id" />
+          </Key>
+          <Property Name="cook_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cook_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="cook_address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="cook_phone" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="cook_image" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="cook_description" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="cook_NID" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Payments">
+          <Key>
+            <PropertyRef Name="payment_id" />
+          </Key>
+          <Property Name="payment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="payment_date" Type="datetime" Nullable="false" />
+          <Property Name="payment_amount" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="cook_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reviews">
+          <Key>
+            <PropertyRef Name="review_id" />
+          </Key>
+          <Property Name="review_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="review_text" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="review_date" Type="datetime" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="cook_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="user_image" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="user_address" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="user_phone" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="user_profession" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="user_NID" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_dbo_Bookings_dbo_Cooks_cook_id">
+          <End Role="Cooks" Type="Self.Cooks" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cooks">
+              <PropertyRef Name="cook_id" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="cook_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Bookings_dbo_Users_user_id">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Payments_dbo_Cooks_cook_id">
+          <End Role="Cooks" Type="Self.Cooks" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cooks">
+              <PropertyRef Name="cook_id" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="cook_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Payments_dbo_Users_user_id">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Reviews_dbo_Cooks_cook_id">
+          <End Role="Cooks" Type="Self.Cooks" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Reviews" Type="Self.Reviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cooks">
+              <PropertyRef Name="cook_id" />
+            </Principal>
+            <Dependent Role="Reviews">
+              <PropertyRef Name="cook_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Reviews_dbo_Users_user_id">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Reviews" Type="Self.Reviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Reviews">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bookings" EntityType="Self.Bookings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cooks" EntityType="Self.Cooks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payments" EntityType="Self.Payments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reviews" EntityType="Self.Reviews" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_Bookings_dbo_Cooks_cook_id" Association="Self.FK_dbo_Bookings_dbo_Cooks_cook_id">
+            <End Role="Cooks" EntitySet="Cooks" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Bookings_dbo_Users_user_id" Association="Self.FK_dbo_Bookings_dbo_Users_user_id">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Payments_dbo_Cooks_cook_id" Association="Self.FK_dbo_Payments_dbo_Cooks_cook_id">
+            <End Role="Cooks" EntitySet="Cooks" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Payments_dbo_Users_user_id" Association="Self.FK_dbo_Payments_dbo_Users_user_id">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Reviews_dbo_Cooks_cook_id" Association="Self.FK_dbo_Reviews_dbo_Cooks_cook_id">
+            <End Role="Cooks" EntitySet="Cooks" />
+            <End Role="Reviews" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Reviews_dbo_Users_user_id" Association="Self.FK_dbo_Reviews_dbo_Users_user_id">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Reviews" EntitySet="Reviews" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="booking_id" />
+          </Key>
+          <Property Name="booking_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="booking_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="cook_id" Type="Int32" Nullable="false" />
+          <Property Name="is_accepted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Cook" Relationship="Self.FK_dbo_Bookings_dbo_Cooks_cook_id" FromRole="Bookings" ToRole="Cooks" />
+          <NavigationProperty Name="User" Relationship="Self.FK_dbo_Bookings_dbo_Users_user_id" FromRole="Bookings" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Cook">
+          <Key>
+            <PropertyRef Name="cook_id" />
+          </Key>
+          <Property Name="cook_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cook_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="cook_address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="cook_phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="cook_image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="cook_description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="cook_NID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_dbo_Bookings_dbo_Cooks_cook_id" FromRole="Cooks" ToRole="Bookings" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK_dbo_Payments_dbo_Cooks_cook_id" FromRole="Cooks" ToRole="Payments" />
+          <NavigationProperty Name="Reviews" Relationship="Self.FK_dbo_Reviews_dbo_Cooks_cook_id" FromRole="Cooks" ToRole="Reviews" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="payment_id" />
+          </Key>
+          <Property Name="payment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="payment_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="payment_amount" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="cook_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cook" Relationship="Self.FK_dbo_Payments_dbo_Cooks_cook_id" FromRole="Payments" ToRole="Cooks" />
+          <NavigationProperty Name="User" Relationship="Self.FK_dbo_Payments_dbo_Users_user_id" FromRole="Payments" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="review_id" />
+          </Key>
+          <Property Name="review_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="review_text" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="review_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="cook_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cook" Relationship="Self.FK_dbo_Reviews_dbo_Cooks_cook_id" FromRole="Reviews" ToRole="Cooks" />
+          <NavigationProperty Name="User" Relationship="Self.FK_dbo_Reviews_dbo_Users_user_id" FromRole="Reviews" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="user_image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="user_address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="user_phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="user_profession" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="user_NID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_dbo_Bookings_dbo_Users_user_id" FromRole="Users" ToRole="Bookings" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK_dbo_Payments_dbo_Users_user_id" FromRole="Users" ToRole="Payments" />
+          <NavigationProperty Name="Reviews" Relationship="Self.FK_dbo_Reviews_dbo_Users_user_id" FromRole="Users" ToRole="Reviews" />
+        </EntityType>
+        <Association Name="FK_dbo_Bookings_dbo_Cooks_cook_id">
+          <End Role="Cooks" Type="Self.Cook" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Bookings" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cooks">
+              <PropertyRef Name="cook_id" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="cook_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Bookings_dbo_Users_user_id">
+          <End Role="Users" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Bookings" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Payments_dbo_Cooks_cook_id">
+          <End Role="Cooks" Type="Self.Cook" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Payments" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cooks">
+              <PropertyRef Name="cook_id" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="cook_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Reviews_dbo_Cooks_cook_id">
+          <End Role="Cooks" Type="Self.Cook" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Reviews" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cooks">
+              <PropertyRef Name="cook_id" />
+            </Principal>
+            <Dependent Role="Reviews">
+              <PropertyRef Name="cook_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Payments_dbo_Users_user_id">
+          <End Role="Users" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Payments" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Reviews_dbo_Users_user_id">
+          <End Role="Users" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Reviews" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Reviews">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="Bookings" EntityType="Self.Booking" />
+          <EntitySet Name="Cooks" EntityType="Self.Cook" />
+          <EntitySet Name="Payments" EntityType="Self.Payment" />
+          <EntitySet Name="Reviews" EntityType="Self.Review" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_dbo_Bookings_dbo_Cooks_cook_id" Association="Self.FK_dbo_Bookings_dbo_Cooks_cook_id">
+            <End Role="Cooks" EntitySet="Cooks" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Bookings_dbo_Users_user_id" Association="Self.FK_dbo_Bookings_dbo_Users_user_id">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Payments_dbo_Cooks_cook_id" Association="Self.FK_dbo_Payments_dbo_Cooks_cook_id">
+            <End Role="Cooks" EntitySet="Cooks" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Reviews_dbo_Cooks_cook_id" Association="Self.FK_dbo_Reviews_dbo_Cooks_cook_id">
+            <End Role="Cooks" EntitySet="Cooks" />
+            <End Role="Reviews" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Payments_dbo_Users_user_id" Association="Self.FK_dbo_Payments_dbo_Users_user_id">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Reviews_dbo_Users_user_id" Association="Self.FK_dbo_Reviews_dbo_Users_user_id">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Reviews" EntitySet="Reviews" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="Model.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bookings">
+            <EntityTypeMapping TypeName="Model.Booking">
+              <MappingFragment StoreEntitySet="Bookings">
+                <ScalarProperty Name="booking_id" ColumnName="booking_id" />
+                <ScalarProperty Name="booking_date" ColumnName="booking_date" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="cook_id" ColumnName="cook_id" />
+                <ScalarProperty Name="is_accepted" ColumnName="is_accepted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cooks">
+            <EntityTypeMapping TypeName="Model.Cook">
+              <MappingFragment StoreEntitySet="Cooks">
+                <ScalarProperty Name="cook_id" ColumnName="cook_id" />
+                <ScalarProperty Name="cook_name" ColumnName="cook_name" />
+                <ScalarProperty Name="cook_address" ColumnName="cook_address" />
+                <ScalarProperty Name="cook_phone" ColumnName="cook_phone" />
+                <ScalarProperty Name="cook_image" ColumnName="cook_image" />
+                <ScalarProperty Name="cook_description" ColumnName="cook_description" />
+                <ScalarProperty Name="cook_NID" ColumnName="cook_NID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="Model.Payment">
+              <MappingFragment StoreEntitySet="Payments">
+                <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+                <ScalarProperty Name="payment_date" ColumnName="payment_date" />
+                <ScalarProperty Name="payment_amount" ColumnName="payment_amount" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="cook_id" ColumnName="cook_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reviews">
+            <EntityTypeMapping TypeName="Model.Review">
+              <MappingFragment StoreEntitySet="Reviews">
+                <ScalarProperty Name="review_id" ColumnName="review_id" />
+                <ScalarProperty Name="review_text" ColumnName="review_text" />
+                <ScalarProperty Name="review_date" ColumnName="review_date" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="cook_id" ColumnName="cook_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Model.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="user_image" ColumnName="user_image" />
+                <ScalarProperty Name="user_address" ColumnName="user_address" />
+                <ScalarProperty Name="user_phone" ColumnName="user_phone" />
+                <ScalarProperty Name="user_profession" ColumnName="user_profession" />
+                <ScalarProperty Name="user_NID" ColumnName="user_NID" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

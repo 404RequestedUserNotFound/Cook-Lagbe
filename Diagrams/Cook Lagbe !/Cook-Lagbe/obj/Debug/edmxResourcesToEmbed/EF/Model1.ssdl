@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BUA_LAGBEDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Bookings">
+    <Key>
+      <PropertyRef Name="booking_id" />
+    </Key>
+    <Property Name="booking_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="booking_date" Type="datetime" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="bua_id" Type="int" Nullable="false" />
+    <Property Name="is_accepted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Buas">
+    <Key>
+      <PropertyRef Name="bua_id" />
+    </Key>
+    <Property Name="bua_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="bua_name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="bua_address" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="bua_phone" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="bua_image" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="bua_NID" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="bua_Description" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Payments">
+    <Key>
+      <PropertyRef Name="payment_id" />
+    </Key>
+    <Property Name="payment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="payment_date" Type="datetime" Nullable="false" />
+    <Property Name="payment_amount" Type="int" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="bua_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Reviews">
+    <Key>
+      <PropertyRef Name="review_id" />
+    </Key>
+    <Property Name="review_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="review_text" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="review_date" Type="datetime" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="bua_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="user_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="user_NID" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="user_image" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="user_address" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="user_phone" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="user_profession" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_dbo_Bookings_dbo_Buas_bua_id">
+    <End Role="Buas" Type="Self.Buas" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Buas">
+        <PropertyRef Name="bua_id" />
+      </Principal>
+      <Dependent Role="Bookings">
+        <PropertyRef Name="bua_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Bookings_dbo_Users_user_id">
+    <End Role="Users" Type="Self.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Bookings">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Payments_dbo_Buas_bua_id">
+    <End Role="Buas" Type="Self.Buas" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Buas">
+        <PropertyRef Name="bua_id" />
+      </Principal>
+      <Dependent Role="Payments">
+        <PropertyRef Name="bua_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Payments_dbo_Users_user_id">
+    <End Role="Users" Type="Self.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Payments">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Reviews_dbo_Buas_bua_id">
+    <End Role="Buas" Type="Self.Buas" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Reviews" Type="Self.Reviews" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Buas">
+        <PropertyRef Name="bua_id" />
+      </Principal>
+      <Dependent Role="Reviews">
+        <PropertyRef Name="bua_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Reviews_dbo_Users_user_id">
+    <End Role="Users" Type="Self.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Reviews" Type="Self.Reviews" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Reviews">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BUA_LAGBEDBModelStoreContainer">
+    <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Bookings" EntityType="Self.Bookings" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Buas" EntityType="Self.Buas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Payments" EntityType="Self.Payments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Reviews" EntityType="Self.Reviews" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_dbo_Bookings_dbo_Buas_bua_id" Association="Self.FK_dbo_Bookings_dbo_Buas_bua_id">
+      <End Role="Buas" EntitySet="Buas" />
+      <End Role="Bookings" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Bookings_dbo_Users_user_id" Association="Self.FK_dbo_Bookings_dbo_Users_user_id">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Bookings" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Payments_dbo_Buas_bua_id" Association="Self.FK_dbo_Payments_dbo_Buas_bua_id">
+      <End Role="Buas" EntitySet="Buas" />
+      <End Role="Payments" EntitySet="Payments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Payments_dbo_Users_user_id" Association="Self.FK_dbo_Payments_dbo_Users_user_id">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Payments" EntitySet="Payments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Reviews_dbo_Buas_bua_id" Association="Self.FK_dbo_Reviews_dbo_Buas_bua_id">
+      <End Role="Buas" EntitySet="Buas" />
+      <End Role="Reviews" EntitySet="Reviews" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Reviews_dbo_Users_user_id" Association="Self.FK_dbo_Reviews_dbo_Users_user_id">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Reviews" EntitySet="Reviews" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
